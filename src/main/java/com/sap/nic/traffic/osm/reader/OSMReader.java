@@ -24,6 +24,7 @@ public class OSMReader {
 	
 	private final ArrayList<OSMNode> nodeList = new ArrayList<OSMNode>();
 	private final ArrayList<OSMWay> wayList = new ArrayList<OSMWay>();
+	private final ArrayList<OSMRelation> relationList = new ArrayList<OSMRelation>();
 	
 	public ArrayList<OSMNode> getNodeList() {
 		return nodeList;
@@ -31,6 +32,10 @@ public class OSMReader {
 
 	public ArrayList<OSMWay> getWayList() {
 		return wayList;
+	}
+	
+	public ArrayList<OSMRelation> getRelationList(){
+		return relationList;
 	}
 
 	public OSMReader(File osmFile) {
@@ -103,6 +108,30 @@ public class OSMReader {
 							            event = parser.nextTag();
 									}
 									wayList.add(way);
+									break;
+								}
+								case 'r':{
+									long relationId = Integer.parseInt(parser.getAttributeValue(null,"id"));
+									OSMRelation osmRelation = new OSMRelation(relationId);
+									int event = parser.nextTag();
+									String localName = parser.getLocalName();
+									while(event != XMLStreamReader.END_DOCUMENT && (localName.equals("member")||localName.equals("tag"))){
+										if(event == XMLStreamReader.START_ELEMENT){
+											if(localName.equals("member")){
+												String ref = parser.getAttributeValue(null,"ref");
+												String type = parser.getAttributeValue(null,"type");
+												String role = parser.getAttributeValue(null,"role");
+												osmRelation.addMember(type, Long.parseLong(ref), role);
+											}else if(localName.equals("tag")){
+												String k = parser.getAttributeValue(null, "k");
+												String v = parser.getAttributeValue(null, "v");
+												osmRelation.setTag(k, v);
+											}
+										}
+										event = parser.nextTag();
+										localName = parser.getLocalName();
+									}
+									relationList.add(osmRelation);
 									break;
 								}
 							}

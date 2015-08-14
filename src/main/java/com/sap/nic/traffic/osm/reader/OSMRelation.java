@@ -12,8 +12,8 @@ public class OSMRelation extends OSMElement{
 	public OSMRelation(long id){
 		super(id);
 	}
-	public void addMember(char type, long ref, String role){
-		members.add(new Member(type, ref, role));
+	public void addMember(String type, long ref, String role){
+		members.add(new Member(type.charAt(0), ref, role));
 	}
 	
 	public class Member{
