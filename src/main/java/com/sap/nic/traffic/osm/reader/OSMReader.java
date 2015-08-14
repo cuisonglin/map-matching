@@ -106,6 +106,7 @@ public class OSMReader {
 							            }
 
 							            event = parser.nextTag();
+							            localName = parser.getLocalName();
 									}
 									wayList.add(way);
 									break;
