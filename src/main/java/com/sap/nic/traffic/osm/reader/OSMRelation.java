@@ -2,6 +2,11 @@ package com.sap.nic.traffic.osm.reader;
 
 import java.util.ArrayList;
 
+
+/**
+ * @author DengrongGuan
+ *
+ */
 public class OSMRelation extends OSMElement{
 	private ArrayList<Member> members = new ArrayList<Member>();
 	public OSMRelation(long id){
