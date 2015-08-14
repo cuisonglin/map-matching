@@ -27,8 +27,32 @@ public class OSMRelation extends OSMElement{
 			this.ref = ref;
 			this.role = role;
 		}
+		public char getType(){
+			return this.type;
+		}
+		public long getRef(){
+			return this.ref;
+		}
+		public String getRole(){
+			return role;
+		}
 		
 		
+	}
+	public String toString(){
+		StringBuilder res = new StringBuilder();
+		res.append( "id:"+this.getId()+"\n");
+		for (Member member : members) {
+			res.append("member:{type:"+member.getType()+",ref:"+member.getRef()+",role:"+member.getRole()+"}\n");
+		}
+		if (!this.getTags().isEmpty())
+        {
+            res.append(tagsToString());
+            res.append("\n");
+        }
+		
+		
+		return res.toString();
 	}
 
 }
